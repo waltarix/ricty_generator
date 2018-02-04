@@ -1,15 +1,14 @@
-FROM ubuntu:16.04
+FROM alpine:3.7
 
-RUN sed -i.bak 's@archive.ubuntu.com/ubuntu@ftp.jaist.ac.jp/pub/Linux/ubuntu@' /etc/apt/sources.list
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' | tee -a /etc/apk/repositories
 
-RUN apt-get update && apt-get install -y \
-    curl \
-    fontforge \
-    fonttools \
-    make \
-    python-fontforge \
-    unzip \
- && rm -rf /var/lib/apt/lists/*
+RUN apk --no-cache add \
+	curl \
+	make \
+	unzip \
+	fontforge \
+	py-fonttools \
+	bash
 
 RUN mkdir -p /ricty/fonts
 WORKDIR /ricty

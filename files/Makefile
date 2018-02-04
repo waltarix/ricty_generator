@@ -65,7 +65,7 @@ $(ARTIFACTS_FOR_WINDOWS): SHELL := /bin/bash
 $(ARTIFACTS_FOR_WINDOWS): $(ALL_RICTY_FONTS) | $(ARTIFACT_DIR_FOR_WINDOWS)
 	@font=$(notdir $@); \
 	xml=$${font/%.ttf/.win.ttx}; \
-	ttx -t OS/2 -q -o - $$font | perl -pe 's@(?<=xAvgCharWidth value=")940(?=")@500@g' > $$xml; \
+	ttx -t OS/2 -q -o - $$font | sed -e 's/\(xAvgCharWidth value=\)"940"/\1"500"/g' > $$xml; \
 	ttx -m $$font $$xml; \
 	rm $$xml; \
 	mv $${xml/%.ttx/.ttf} $(ARTIFACT_DIR_FOR_WINDOWS)/$$font
